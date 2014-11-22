@@ -9,6 +9,7 @@ import sys
 
 parser=argparse.ArgumentParser(description="Create random password from dictionary (a la 'correct horse battery staple')", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--count", "-c", type=int, default=4, help="Number of words")
+parser.add_argument("--maxlen", "-m", type=int, help="Restrict dictionary to words with up to maxlen letters")
 parser.add_argument("--dictionary", "-d", choices=["german", "british", "american"], default="german", help="Which dictionary to use")
 args = parser.parse_args()
 
@@ -29,6 +30,9 @@ try:
 except IOError:
 	print >> sys.stderr, "Dictionary {} not found in /usr/share/dict".format(fname)
 	sys.exit(1)
+	
+if args.maxlen != None:
+	dictionary = [word for word in dictionary if len(word) <= args.maxlen]
 dictionary_length = len(dictionary)
 
 print "dictionary length:", dictionary_length
