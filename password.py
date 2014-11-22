@@ -26,7 +26,9 @@ else:
 
 try:
 	with open(os.path.join(dict_path, fname)) as f:
-		dictionary = list(f)
+		dictionary = []
+		for line in f:
+			dictionary.append(line.strip())
 except IOError:
 	print >> sys.stderr, "Dictionary {} not found in /usr/share/dict".format(fname)
 	sys.exit(1)
@@ -38,5 +40,5 @@ dictionary_length = len(dictionary)
 print "dictionary length:", dictionary_length
 print "Entropy:", math.log(dictionary_length**args.count, 2), "bits"
 for i in xrange(args.count):
-	print dictionary[rand_gen.randint(0, dictionary_length-1)][:-1],
+	print dictionary[rand_gen.randint(0, dictionary_length-1)],
 print ""
