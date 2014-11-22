@@ -5,6 +5,7 @@ import struct
 import argparse
 import random
 import math
+import sys
 
 parser=argparse.ArgumentParser(description="Create random password from dictionary (a la 'correct horse battery staple')", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("--count", "-c", type=int, default=4, help="Number of words")
@@ -22,9 +23,12 @@ elif args.dictionary == "british":
 else:
 	fname = "american-english"
 
-with open(os.path.join(dict_path, fname)) as f:
-	dictionary = list(f)
-
+try:
+	with open(os.path.join(dict_path, fname)) as f:
+		dictionary = list(f)
+except IOError:
+	print >> sys.stderr, "Dictionary {} not found in /usr/share/dict".format(fname)
+	sys.exit(1)
 dictionary_length = len(dictionary)
 
 print "dictionary length:", dictionary_length
