@@ -11,6 +11,7 @@ parser=argparse.ArgumentParser(description="Create random password from dictiona
 parser.add_argument("--count", "-c", type=int, default=4, help="Number of words")
 parser.add_argument("--maxlen", "-m", type=int, help="Restrict dictionary to words with up to maxlen letters")
 parser.add_argument("--dictionary", "-d", choices=["german", "british", "american"], default="german", help="Which dictionary to use")
+parser.add_argument("--separator", "-s", default=" ", help="Separator")
 args = parser.parse_args()
 
 dict_path = "/usr/share/dict"
@@ -39,6 +40,10 @@ dictionary_length = len(dictionary)
 
 print "dictionary length:", dictionary_length
 print "Entropy:", math.log(dictionary_length**args.count, 2), "bits"
+
+words = []
+
 for i in xrange(args.count):
-	print dictionary[rand_gen.randint(0, dictionary_length-1)],
-print ""
+	words.append(dictionary[rand_gen.randint(0, dictionary_length-1)])
+
+print args.separator.join(words)
